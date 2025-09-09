@@ -20,7 +20,7 @@ export default function Header({ isLoggedIn }: HeaderProps) {
           {isLoggedIn ? (
             <li><Link to="/Perfil">Meu perfil</Link></li>
           ) : (
-            <li><Link to="/Perfil">Entrar / Cadastrar-se</Link></li>
+            <li><Link to="/Login">Entrar / Cadastrar-se</Link></li>
           )}
         </ul>
       </nav>
