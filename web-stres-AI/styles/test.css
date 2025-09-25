@@ -1,0 +1,28 @@
+.test-page-wrapper {
+  background-color: var(--bg);
+  min-height: calc(100vh - 75px - 70px);
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+}
+
+#quiz-container h2,
+#quiz-container h3,
+#quiz-container p {
+  color: var(--ink);
+}
+
+.btn-answer {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-weight: 700;
+  padding: 0.75rem;
+  transition: all 0.2s ease-out;
+}
+
+.btn-answer:hover {
+  background-color: #1c3d6e;
+  color: var(--fg);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
