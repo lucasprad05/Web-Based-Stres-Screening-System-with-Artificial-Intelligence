@@ -1,54 +1,69 @@
+/* ============================
+   Estilos da página de formulários
+   ============================ */
 
+/* Wrapper principal da página de formulários (login/cadastro) */
 .page-form-dark {
-  background-color: var(--bg);
-  min-height: calc(100vh - 75px - 70px);
-  display: flex;
-  align-items: center;
-  padding: 2rem 0;
+  background-color: var(--bg);               /* Fundo escuro para destacar o formulário */
+  min-height: calc(100vh - 75px - 70px);     /* Altura mínima considerando header e footer */
+  display: flex;                             /* Flexbox para centralizar o conteúdo */
+  align-items: center;                       /* Alinha verticalmente ao centro */
+  padding: 2rem 0;                           /* Espaçamento vertical interno */
 }
 
+/* Card do formulário */
 .form-card {
-  background-color: var(--surface);
-  border-radius: 16px;
-  border: 1px solid var(--border);
-  padding: 1rem;
+  background-color: var(--surface);          /* Fundo branco do card */
+  border-radius: 16px;                       /* Bordas arredondadas */
+  border: 1px solid var(--border);           /* Borda sutil */
+  padding: 1rem;                             /* Espaçamento interno */
 }
 
+/* Labels dos campos do formulário */
 .form-label {
-  color: var(--muted);
+  color: var(--muted);                       /* Cor neutra para textos secundários */
 }
 
+/* Campos de input do formulário */
 .form-control {
-  height: 44px;
-  border-radius: 10px;
-  background-color: var(--input-bg);
-  border: 1px solid var(--border);
-  color: var(--ink);
+  height: 44px;                              /* Altura uniforme dos inputs */
+  border-radius: 10px;                        /* Bordas arredondadas */
+  background-color: var(--input-bg);         /* Fundo claro para inputs */
+  border: 1px solid var(--border);           /* Borda leve */
+  color: var(--ink);                          /* Cor do texto escura */
 }
 
+/* Efeito de foco nos inputs */
 .form-control:focus {
-  border-color: var(--bg);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--bg) 25%, transparent);
+  border-color: var(--bg);                   /* Destaca borda com cor principal */
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--bg) 25%, transparent); /* Sombra de foco */
 }
 
+/* Links dentro do formulário (ex.: "Esqueci minha senha", "Cadastrar-me") */
 .form-link {
-  color: var(--bg);
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 14px;
+  color: var(--bg);                          /* Cor principal para destaque */
+  text-decoration: none;                      /* Remove sublinhado padrão */
+  font-weight: 500;                           /* Peso médio da fonte */
+  font-size: 14px;                            /* Tamanho da fonte */
 }
-.form-link:hover { text-decoration: underline; }
 
+/* Efeito hover nos links do formulário */
+.form-link:hover { 
+  text-decoration: underline;                /* Sublinhado ao passar o mouse */
+}
+
+/* Botão principal do formulário (Entrar/Cadastrar) */
 .btn-primary {
-  background-color: var(--bg);
-  border-color: var(--bg);
-  color: var(--fg);
-  height: 46px;
-  border-radius: 12px;
-  font-weight: 700;
+  background-color: var(--bg);               /* Fundo escuro */
+  border-color: var(--bg);                   /* Borda combinando com o fundo */
+  color: var(--fg);                          /* Texto claro */
+  height: 46px;                              /* Altura do botão */
+  border-radius: 12px;                        /* Bordas arredondadas */
+  font-weight: 700;                           /* Texto em negrito */
 }
 
+/* Efeito hover do botão principal */
 .btn-primary:hover {
-  background-color: #1c3d6e; 
-  border-color: #1c3d6e;
+  background-color: #1c3d6e;                 /* Azul mais escuro no hover */
+  border-color: #1c3d6e;                     /* Mantém consistência da borda */
 }

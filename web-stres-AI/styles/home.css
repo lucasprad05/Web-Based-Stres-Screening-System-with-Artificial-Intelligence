@@ -1,92 +1,125 @@
-.main-hero{
-  position: relative;
-  background-color: linear-gradient(180deg,#f7f9fc, #ffffff);
-  min-height: calc(100vh - 75px - 70px);
-  display: flex;
-  align-items: center;
-  padding: 2rem 0;
+/* ============================
+   Seção principal (hero) da página inicial
+   ============================ */
+
+/* Container principal da seção hero — define posição, fundo e layout */
+.main-hero {
+  position: relative;  /* Necessário para posicionar elementos decorativos absolutos */
+  background: linear-gradient(180deg,#f7f9fc, #ffffff); /* gradiente na cor de fundo */
+  min-height: calc(100vh - 75px - 70px); /* Altura total da tela menos header e footer */
+  display: flex;       /* Flexbox para centralizar conteúdo verticalmente */
+  align-items: center; /* Centraliza os elementos verticalmente */
+  padding: 2rem 0;     /* Espaçamento vertical interno */
 }
 
-.hero-divider{
+/* Linha decorativa central (divisor vertical da hero) */
+.hero-divider {
+  position: absolute;    /* Posiciona sobre a seção hero */
+  inset: 0;             /* Faz ocupar todo o espaço do elemento pai */
+  pointer-events: none; /* Evita interferir em cliques/interações */
+  mask: linear-gradient(90deg, transparent 48.5%, #000 51.5%); /* Cria máscara com linha central */
+}
+
+/* Efeito luminoso vertical no centro da hero */
+.hero-divider::before {
+  content: "";
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-  mask: linear-gradient(90deg, transparent 48.5%, #000 51.5%);
+  left: 50%;                      /* Centraliza horizontalmente */
+  top: -10%;                      /* Estende um pouco para cima */
+  height: 120%;                   /* Altura além dos limites para dar continuidade */
+  width: 2px;                     /* Espessura da linha */
+  background: linear-gradient(180deg, transparent, rgba(10,25,47,.35), transparent); /* Gradiente suave na linha */
+  box-shadow: 
+    0 0 24px rgba(100,255,218,.2), /* Brilho externo difuso */
+    0 0 2px rgba(100,255,218,.6) inset; /* Brilho interno */
+  transform: translateX(-50%);     /* Centraliza com base na largura da linha */
 }
-.hero-divider::before{
-  content:"";
-  position:absolute;
-  left:50%;
-  top: -10%;
-  height: 120%;
-  width: 2px;
-  background: linear-gradient(180deg, transparent, rgba(10,25,47,.35), transparent);
-  box-shadow: 0 0 24px rgba(100,255,218,.2), 0 0 2px rgba(100,255,218,.6) inset;
-  transform: translateX(-50%);
-}
-.main-hero::after{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:-12%;
-  width:60vw;
-  height:140%;
+
+/* Efeito radial de luz suave atrás da linha central */
+.main-hero::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -12%;
+  width: 60vw;  /* Largura responsiva */
+  height: 140%;
   background: radial-gradient(600px 240px at 50% 50%, rgba(100,255,218,.08), transparent 60%);
-  transform: translateX(-50%) rotate(-1.5deg);
-  pointer-events:none;
+  transform: translateX(-50%) rotate(-1.5deg); /* Centraliza e dá leve rotação para naturalidade */
+  pointer-events: none; /* Apenas decorativo */
 }
 
-.hero-left h1{
-  font-family: 'Montserrat Alternates', system-ui, sans-serif;
-  font-size: clamp(28px, 4.2vw, 44px);
-  color: var(--ink);
-}
-.hero-desc{
-  font-size: clamp(16px, 2vw, 18px);
-  color: #2b3142;
+/* ============================
+   Coluna esquerda da hero
+   ============================ */
+
+/* Título principal da hero */
+.hero-left h1 {
+  font-family: 'Montserrat Alternates', system-ui, sans-serif; /* Tipografia personalizada */
+  font-size: clamp(28px, 4.2vw, 44px); /* Escala responsiva do tamanho */
+  color: var(--ink); /* Cor de destaque escura */
 }
 
+/* Texto descritivo abaixo do título */
+.hero-desc {
+  font-size: clamp(16px, 2vw, 18px); /* Responsivo */
+  color: #2b3142; /* Cinza escuro */
+}
+
+/* ============================
+   Botão CTA (call-to-action)
+   ============================ */
+
+/* Estilo base do botão "Fazer o teste!" */
 .cta-button {
-  background-color: var(--yellow);
-  border-color: var(--yellow);
-  color: #2a1a00;
-  font-weight: 700;
+  background-color: var(--yellow);                /* Fundo amarelo vibrante */
+  border-color: var(--yellow);                    /* Borda combinando com o fundo */
+  color: #2a1a00;                                 /* Texto escuro para contraste */
+  font-weight: 700;                               /* Negrito */
   font-size: 0.9rem;
-  box-shadow: 0 2px 6px rgba(255,206,69,.35);
-  transition: transform .06s ease, box-shadow .2s ease, filter .2s ease;
-  padding: 10px 12px;
+  box-shadow: 0 2px 6px rgba(255,206,69,.35);     /* Sombra suave para destaque */
+  transition: transform .06s ease, box-shadow .2s ease, filter .2s ease; /* Animações suaves */
+  padding: 10px 12px;                             /* Espaçamento interno confortável */
 }
+
+/* Efeito hover do botão CTA */
 .cta-button:hover {
-  background-color: #e6b83e;
-  border-color: #e6b83e;
-  transform: translateY(-1px);
-  filter: saturate(1.1);
-  box-shadow: 0 4px 10px rgba(255,206,69,.45);
+  background-color: #e6b83e;                      /* Tom mais escuro no hover */
+  border-color: #e6b83e;                          /* Mantém consistência */
+  transform: translateY(-1px);                    /* Leve movimento para cima */
+  filter: saturate(1.1);                          /* Realça a cor */
+  box-shadow: 0 4px 10px rgba(255,206,69,.45);    /* Sombra mais intensa */
 }
 
-.hero-right{
+/* ============================
+   Coluna direita da hero (imagem e legenda)
+   ============================ */
+
+/* Container da imagem e legenda */
+.hero-right {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;  /* Empilha verticalmente */
+  align-items: center;     /* Centraliza horizontalmente */
+  justify-content: center; /* Centraliza verticalmente */
 }
 
-.photo-frame{
+/* Moldura da imagem */
+.photo-frame {
   width: 100%;
-  max-width: 520px;
-  aspect-ratio: 4 / 3;
+  max-width: 520px;                                         /* Limita largura máxima */
+  aspect-ratio: 4 / 3;                                      /* Mantém proporção 4:3 */
   margin: 0;
-  background: linear-gradient(145deg,#0e213f,#173561);
-  padding: 10px;
+  background: linear-gradient(145deg,#0e213f,#173561);      /* Gradiente de fundo */
+  padding: 10px;                                            /* Espaçamento interno */
 }
 
-.photo-caption{
+/* Legenda abaixo da imagem */
+.photo-caption {
   margin-top: 1rem;
   font-size: 14.5px;
   color: #1b2537;
   background: #eef4ff;
   border: 1px solid rgba(23,53,97,.12);
   padding: 10px 14px;
-  border-radius: 10px;
-  box-shadow: 0 8px 18px rgba(3, 23, 52, .06);
+  border-radius: 10px;                                      /* Bordas arredondadas */
+  box-shadow: 0 8px 18px rgba(3, 23, 52, .06);              /* Sombra leve */
 }

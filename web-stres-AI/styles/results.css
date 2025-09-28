@@ -1,24 +1,35 @@
+/* ============================
+   Estilização da página de resultados
+   ============================ */
+
+/* Wrapper principal da página de resultados — define fundo, altura e centralização vertical */
 .result-page-wrapper {
-  background-color: var(--bg);
-  min-height: calc(100vh - 75px - 70px);
-  display: flex;
-  align-items: center;
-  padding: 2rem 0;
+  background-color: var(--bg);              /* Cor de fundo definida por variável global */
+  min-height: calc(100vh - 75px - 70px);    /* Altura mínima considerando o header (75px) e o footer (70px) */
+  display: flex;                            /* Flexbox para facilitar o alinhamento vertical */
+  align-items: center;                      /* Centraliza o conteúdo verticalmente */
+  padding: 2rem 0;                          /* Espaçamento vertical interno */
 }
 
+/* ============================
+   Botão da página de resultado
+   ============================ */
+
+/* Estilo base do botão que leva a refazer o teste */
 .result-button {
-  background-color: var(--bg);
-  color: var(--fg);
-  font-weight: 700;
-  border: none;
-  padding: 0.75rem;
-  transition: all 0.2s ease-out;
+  background-color: var(--bg);              /* Fundo escuro para manter consistência visual */
+  color: var(--fg);                         /* Texto claro para bom contraste */
+  font-weight: 700;                         /* Texto em negrito para destaque */
+  border: none;                             /* Remove bordas padrão do Bootstrap */
+  padding: 0.75rem;                         /* Espaçamento interno para área de clique confortável */
+  transition: all 0.2s ease-out;            /* Transição suave em efeitos de hover */
 }
 
+/* Efeito de hover no botão de resultado */
 .result-button:hover {
-  background-color: #1c3d6e;
-  border: none;
-  color: var(--fg);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  background-color: #1c3d6e;                /* Azul mais escuro no hover */
+  border: none;                             /* Garante que nenhuma borda apareça ao passar o mouse */
+  color: var(--fg);                         /* Mantém o texto claro */
+  transform: translateY(-2px);              /* Pequeno deslocamento para dar sensação de clique */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);   /* Sombra para destacar o botão */
 }

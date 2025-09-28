@@ -1,28 +1,40 @@
+/* ============================
+   Estilização da página de teste
+   ============================ */
+
+/* Wrapper principal da página de teste — define o fundo, altura e centraliza verticalmente o conteúdo */
 .test-page-wrapper {
-  background-color: var(--bg);
-  min-height: calc(100vh - 75px - 70px);
-  display: flex;
-  align-items: center;
-  padding: 2rem 0;
+  background-color: var(--bg);              /* Cor de fundo usando variável global */
+  min-height: calc(100vh - 75px - 70px);    /* Altura mínima considerando o cabeçalho (75px) e o rodapé (70px) */
+  display: flex;                            /* Flexbox para centralização vertical */
+  align-items: center;                      /* Alinha o conteúdo ao centro verticalmente */
+  padding: 2rem 0;                          /* Espaçamento vertical interno */
 }
 
+/* Define a cor dos títulos e parágrafos dentro do container do quiz */
 #quiz-container h2,
 #quiz-container h3,
 #quiz-container p {
-  color: var(--ink);
+  color: var(--ink);                        /* Usa a cor principal do texto */
 }
 
+/* ============================
+   Botões de resposta do quiz
+   ============================ */
+
+/* Estilo base dos botões de resposta */
 .btn-answer {
-  background-color: var(--bg);
-  color: var(--fg);
-  font-weight: 700;
-  padding: 0.75rem;
-  transition: all 0.2s ease-out;
+  background-color: var(--bg);              /* Fundo escuro para contraste */
+  color: var(--fg);                         /* Texto claro */
+  font-weight: 700;                         /* Deixa o texto em negrito */
+  padding: 0.75rem;                         /* Espaçamento interno confortável */
+  transition: all 0.2s ease-out;            /* Animação suave para hover */
 }
 
+/* Efeito visual ao passar o mouse sobre os botões */
 .btn-answer:hover {
-  background-color: #1c3d6e;
-  color: var(--fg);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  background-color: #1c3d6e;                /* Tom de azul mais escuro no hover */
+  color: var(--fg);                         /* Mantém o texto claro */
+  transform: translateY(-2px);              /* Dá um pequeno "salto" para cima */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);   /* Sombra para dar destaque */
 }

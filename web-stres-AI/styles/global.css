@@ -1,52 +1,72 @@
 :root {
-  /* Paleta de cores principal */
-  --bg: #0a192f;     
-  --fg: #f0f4f8;
-  --ink: #0e1222;
-  --muted: #5d6b7f;
-  --yellow: #ffce45;
-  --panel: #0f2547; 
+  /* ===========================
+     Paleta de cores e variáveis globais
+     =========================== */
+  --bg: #0a192f;        /* Cor de fundo principal (azul escuro) */
+  --fg: #f0f4f8;        /* Cor de texto clara para contrastar com o fundo escuro */
+  --ink: #0e1222;       /* Cor de texto escura usada em fundos claros */
+  --muted: #5d6b7f;     /* Cor neutra para textos menos importantes */
+  --yellow: #ffce45;    /* Cor de destaque (amarelo vibrante) */
+  --panel: #0f2547;     /* Cor para painéis ou áreas destacadas */
 
   /* Variáveis de UI para os formulários */
-  --surface: #ffffff;
-  --border: #dddddd;
-  --input-bg: #f9f9f9;
+  --surface: #ffffff;   /* Cor de fundo padrão para superfícies claras */
+  --border: #dddddd;    /* Cor padrão para bordas */
+  --input-bg: #f9f9f9;  /* Cor de fundo para inputs */
 }
 
-
 body {
-  margin: 0;
-  font-family: system-ui, sans-serif;
-  background: #f9f9f9;
-  color: #111;
+  /* ===========================
+     Estilos globais do body
+     =========================== */
+  margin: 0;                                /* Remove margens padrão */
+  font-family: system-ui, sans-serif;       /* Define a família de fontes padrão */
+  background: #f9f9f9;                      /* Cor de fundo geral da página */
+  color: #111;                              /* Cor de texto padrão (escura) */
 }
 
 .header {
-  background-color: var(--bg);
-  color: var(--fg);
-  box-shadow: 0 2px 8px rgba(0,0,0,.4);
+  /* ===========================
+     Estilização do cabeçalho (navbar)
+     =========================== */
+  background-color: var(--bg);              /* Fundo escuro definido pela variável */
+  color: var(--fg);                         /* Texto em cor clara */
+  box-shadow: 0 2px 8px rgba(0,0,0,.4);     /* Sombra inferior para destaque visual */
 }
 
 .header .logo-link {
-    color: var(--fg);
-    text-decoration: none;
-    font-weight: 800;
+  /* ===========================
+     Link da logo dentro do cabeçalho
+     =========================== */
+  color: var(--fg);                         /* Mantém a logo branca no header */
+  text-decoration: none;                   /* Remove sublinhado padrão */
+  font-weight: 800;                         /* Negrito forte para dar destaque */
 }
 
 .logo-link {
-  font-size: 1.8rem;
-  font-weight: 800;
-  font-family: 'Montserrat Alternates', sans-serif;
-  color: var(--accent);
-  text-decoration: none;
-  letter-spacing: 1px;
+  /* ===========================
+     Estilo geral da logo (pode ser reutilizado)
+     =========================== */
+  font-size: 1.8rem;                        /* Aumenta o tamanho da fonte da logo */
+  font-weight: 800;                         /* Negrito forte */
+  font-family: 'Montserrat Alternates', sans-serif; /* Fonte estilizada para identidade visual */
+  color: var(--accent);                     /* Usa uma cor de destaque (possivelmente definida em outro lugar) */
+  text-decoration: none;                   /* Remove sublinhado */
+  letter-spacing: 1px;                      /* Aumenta o espaçamento entre letras */
 }
 
-.navbar-nav .nav-link{
-    color: var(--muted);
-    font-weight: 500;
-    transition: color .2s ease;
+.navbar-nav .nav-link {
+  /* ===========================
+     Estilo dos links de navegação (navbar)
+     =========================== */
+  color: var(--muted);                      /* Cor neutra inicialmente */
+  font-weight: 500;                         /* Peso médio da fonte */
+  transition: color .2s ease;              /* Suaviza a transição de cor no hover */
 }
+
 .navbar-nav .nav-link:hover {
-  color: var(--fg);
+  /* ===========================
+     Efeito hover dos links da navbar
+     =========================== */
+  color: var(--fg);                         /* Muda a cor para clara ao passar o mouse */
 }
