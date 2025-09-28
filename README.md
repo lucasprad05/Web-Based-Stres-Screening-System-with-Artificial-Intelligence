@@ -44,28 +44,27 @@ O protótipo implementa o fluxo principal da aplicação, consistindo nas seguin
 O projeto está organizado na seguinte estrutura de pastas, separando conteúdo (HTML), estilo (CSS) e lógica (JavaScript):
 
 ```
-/web-stres-AI
-│
-├── index.html              // Página inicial
-├── README.md               // Esta documentação
-│
-├── pages/                  // Demais páginas HTML do projeto
-│   ├── login.html
-│   ├── register.html
-│   ├── teste.html
-│   └── resultado.html
-│
-├── styles/                 // Arquivos de estilo (CSS)
-│   ├── global.css          // Estilos globais (header, footer, variáveis de cor)
-│   ├── home.css            // Estilos específicos da página inicial
-│   ├── forms.css           // Estilos para as páginas de login e cadastro
-│   ├── test.css            // Estilos para a página do teste
-│   └── result.css          // Estilos para a página de resultado
-│
-└── scripts/                // Arquivos de lógica (JavaScript)
-    ├── auth.js             // Lógica para os formulários de login e cadastro
-    ├── test.js             // Lógica para o funcionamento do questionário
-    └── results.js          // Lógica para exibir o resultado do teste
+├── README.md
+└── web-stres-AI/
+    ├── index.html              // Página inicial
+    │
+    ├── pages/                  // Demais páginas HTML do projeto
+    │   ├── login.html
+    │   ├── register.html
+    │   ├── teste.html
+    │   └── resultado.html
+    │
+    ├── styles/                 // Arquivos de estilo (CSS)
+    │   ├── global.css          // Estilos globais (header, footer, variáveis de cor)
+    │   ├── home.css            // Estilos específicos da página inicial
+    │   ├── forms.css           // Estilos para as páginas de login e cadastro
+    │   ├── test.css            // Estilos para a página do teste
+    │   └── result.css          // Estilos para a página de resultado
+    │
+    └── scripts/                // Arquivos de lógica (JavaScript)
+        ├── auth.js             // Lógica para os formulários de login e cadastro
+        ├── test.js             // Lógica para o funcionamento do questionário
+        └── results.js          // Lógica para exibir o resultado do teste
 ```
 
 -----
