@@ -15,7 +15,7 @@ export default function Header({ isLoggedIn }: HeaderProps) {
       <nav>
         <ul>
           <li><Link to="/">Início</Link></li>
-          <li><Link to="/Fazerteste">Faça seu teste!</Link></li>
+          <li><Link to="/TestPage">Faça seu teste!</Link></li>
 
           {isLoggedIn ? (
             <li><Link to="/Perfil">Meu perfil</Link></li>

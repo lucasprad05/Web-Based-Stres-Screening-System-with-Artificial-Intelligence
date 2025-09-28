@@ -13,7 +13,7 @@ export default function MainPage() {
           sugerir próximos passos — tudo de forma simples e humana.
         </p>
 
-        <Link to="/Fazerteste" className="cta-button">Fazer o teste!</Link>
+        <Link to="/TestPage" className="cta-button">Fazer o teste!</Link>
 
         <p className="hero-footnote">
           Baseado em um modelo treinado com dados do Kaggle sobre bem-estar de estudantes.

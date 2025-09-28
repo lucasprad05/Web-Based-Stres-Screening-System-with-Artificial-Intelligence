@@ -1,0 +1,113 @@
+/* Mantém o layout e tema vindos da mainPage.css.
+   Aqui só tratamos os controles do formulário e o card da direita. */
+
+.test-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 8px;
+}
+
+.question {
+  border: 1px solid rgba(23,53,97,.10);
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 6px 16px rgba(3,23,52,.05);
+}
+
+.question legend {
+  font-weight: 600;
+  color: var(--ink);
+  padding: 0 6px;
+  margin-bottom: 10px;
+  font-size: 0.98rem;
+}
+
+.scale-group {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.scale-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(23,53,97,.12);
+  background: #f7fbff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: transform .05s ease, box-shadow .2s ease, border-color .2s ease;
+  user-select: none;
+}
+
+.scale-option:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(3, 23, 52, .08);
+  border-color: rgba(23,53,97,.2);
+}
+
+.scale-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.scale-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  border: 2px solid #9db5d1;
+  background: #fff;
+  flex: 0 0 auto;
+  transition: all .2s ease;
+}
+
+.scale-option input:checked + .scale-dot {
+  border-color: #173561;
+  background: var(--yellow);
+}
+
+.scale-text {
+  font-size: 0.9rem;
+  color: #1b2537;
+}
+
+/* Card informativo à direita */
+.info-card {
+  width: 100%;
+  max-width: 520px;
+  margin: 0;
+  padding: 16px;
+  border-radius: 16px;
+  background: #eef4ff;
+  border: 1px solid rgba(23,53,97,.12);
+  box-shadow: 0 10px 24px rgba(3,23,52,.08);
+}
+
+.info-card figcaption {
+  font-weight: 700;
+  color: #173561;
+  margin-bottom: 8px;
+}
+
+.info-card p {
+  color: #1b2537;
+  margin: 0 0 8px 0;
+}
+
+.info-list {
+  margin: 8px 0 0 18px;
+  padding: 0;
+  color: #2b3142;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 980px) {
+  .scale-group {
+    grid-template-columns: 1fr;
+  }
+}
