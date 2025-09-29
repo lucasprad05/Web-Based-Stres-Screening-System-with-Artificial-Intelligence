@@ -1,0 +1,84 @@
+/* Estilos para o componente ResultPage.tsx */
+.result-page-wrapper {
+  background-color: var(--bg); /* Cor de fundo principal */
+  /* Altura mínima garante que o conteúdo ocupe quase toda a tela */
+  min-height: calc(100vh - 75px - 70px); 
+  display: flex;
+  align-items: center; /* Centraliza o card verticalmente */
+  justify-content: center; /* Centraliza o card horizontalmente */
+  padding: 2rem 0;
+}
+
+/* Card de resultados (estrutura do form-card) */
+.result-card {
+  width: 100%;
+  max-width: 500px; /* Largura máxima para centralizar */
+  margin: 0 auto; /* Centralização horizontal dentro do container */
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.35), 0 0 0 1px rgba(0,0,0,.05) inset;
+  /* Garante que o texto dentro do card esteja centralizado */
+  text-align: center; 
+}
+
+.result-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 8px;
+}
+
+.result-desc {
+    color: var(--muted);
+    font-size: 1rem;
+    margin-bottom: 24px;
+}
+
+.result-score {
+    font-family: 'Montserrat Alternates', sans-serif;
+    font-size: 4rem;
+    font-weight: 800;
+    margin: 16px 0;
+    line-height: 1;
+}
+
+.result-level {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.result-description {
+    color: var(--ink);
+    margin-bottom: 24px;
+}
+
+.result-divider {
+    border-top: 1px solid var(--border);
+    margin: 24px 0;
+}
+
+/* Estilo do botão "Fazer o teste novamente" */
+.result-button {
+  width: 100%;
+  height: 46px;
+  border: none;
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--fg);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .05s ease, filter .15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.result-button:hover { 
+    filter: brightness(1.05); 
+    transform: translateY(-1px);
+    color: var(--fg); 
+}
