@@ -66,7 +66,7 @@ export default function TestPage() {
     localStorage.setItem("stressScore", totalScore.toString())
 
     // 4. Navegar para a página de resultados
-    navigate("/resultado")
+    navigate("/result")
   }
 
   return (
