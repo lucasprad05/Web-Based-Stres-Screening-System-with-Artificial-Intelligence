@@ -1,7 +1,7 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import "../styles/testPage.css"
 
-// 1) IDs válidos das perguntas
 type QuestionId =
   | "sono"
   | "carga"
@@ -11,12 +11,11 @@ type QuestionId =
   | "sintomas"
   | "apoio"
 
-// 2) Mapa de respostas: cada chave pode ter um número (1..5)
 type Answers = Partial<Record<QuestionId, number>>
 
 export default function FazerTeste() {
-  // 3) Estado tipado: nada de {}
   const [answers, setAnswers] = useState<Answers>({})
+  const navigate = useNavigate()
 
   const handleChange = (q: QuestionId, value: number) => {
     setAnswers(prev => ({ ...prev, [q]: value }))
@@ -24,11 +23,10 @@ export default function FazerTeste() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log("Respostas:", answers)
-    alert("Formulário enviado! (substitua por navegação/cálculo de resultado)")
+    // Enviar respostas para a página de resultado
+    navigate("/Result", { state: { answers } })
   }
 
-  // 4) Tipar questions para casar com QuestionId
   const questions: ReadonlyArray<{ id: QuestionId; label: string }> = [
     { id: "sono", label: "Como avaliaria a QUALIDADE do seu sono nos últimos dias?" },
     { id: "carga", label: "Sua carga de estudos/trabalhos acadêmicos está alta?" },

@@ -8,6 +8,7 @@ import MainPage from "./pages/Main"
 import LoginPage from "./pages/Login"
 import RegisterPage from "./pages/Register"
 import TestPage from "./pages/TestPage"
+import Result from "./pages/Result"
 
 export default function App() {
   const isLoggedIn = false
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/testPage" element={<TestPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/result" element={<Result />} />
           <Route path="*" element={<div style={{ padding: 24 }}>404</div>} />
         </Routes>
       </main>
