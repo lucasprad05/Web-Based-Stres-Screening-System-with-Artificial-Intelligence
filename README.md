@@ -10,14 +10,7 @@ Aplicação web **responsiva** onde alunos preenchem um formulário sobre hábit
 - [Objetivo Geral](#-objetivo-geral)
 - [Arquitetura](#-arquitetura)
 - [Tecnologias](#-tecnologias)
-- [Estrutura do Projeto](#-estrutura-do-projeto)
 - [Como Rodar](#-como-rodar)
-- [API do Backend](#-api-do-backend)
-- [Machine Learning](#-machine-learning)
-- [Formulário (Campos Sugeridos)](#-formulário-campos-sugeridos)
-- [Segurança & Boas Práticas](#-segurança--boas-práticas)
-- [Roadmap](#-roadmap)
-- [Licença](#-licença)
 
 ---
 
@@ -57,7 +50,7 @@ Backend (Python + Flask)
 - pandas, numpy
 - joblib para exportar o modelo (`.pkl`)
 
-Para rodar o Front End
+## Como Rodar
 
 npm install <br>
 npm run dev
