@@ -22,7 +22,7 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/testPage" element={<TestPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/resultado" element={<ResultPage />} />
+          <Route path="/result" element={<ResultPage />} />
           <Route path="*" element={<div style={{ padding: 24 }}>404</div>} />
         </Routes>
       </main>
