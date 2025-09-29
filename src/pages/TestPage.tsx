@@ -24,24 +24,25 @@ export default function TestPage() {
     setAnswers(prev => ({ ...prev, [q]: value }))
   }
 
-  // Lista completa das 7 perguntas
-  const questions: ReadonlyArray<{ id: QuestionId; label: string }> = [
-    { id: "sono", label: "Como avaliaria a QUALIDADE do seu sono nos últimos dias?" },
-    { id: "carga", label: "Sua carga de estudos/trabalhos acadêmicos está alta?" },
-    { id: "prazo", label: "Você sente pressão por prazos ou avaliações?" },
-    { id: "preocupacao", label: "Com que frequência você se sente preocupado(a) com o desempenho?" },
-    { id: "pausas", label: "Você faz pausas curtas durante o estudo?" },
-    { id: "sintomas", label: "Tem percebido sinais físicos (tensão, dor de cabeça)?" },
-    { id: "apoio", label: "Sente que tem apoio (amigos, família, universidade)?" },
-  ] as const
+  // Lista completa das 7 perguntas (todas com direção "quanto mais, pior")
+const questions: ReadonlyArray<{ id: QuestionId; label: string }> = [
+  { id: "sono",         label: "Tem dificuldade para iniciar ou manter o sono?" },
+  { id: "carga",        label: "Sente que sua carga acadêmica está excessiva?" },
+  { id: "prazo",        label: "Sente pressão constante por prazos e avaliações?" },
+  { id: "preocupacao",  label: "Fica preocupado(a) com desempenho/erros ao longo do dia?" },
+  { id: "pausas",       label: "Costuma pular/ignorar pausas durante o estudo?" },
+  { id: "sintomas",     label: "Percebe sinais físicos de tensão (dor de cabeça, corpo rígido)?" },
+  { id: "apoio",        label: "Sente que não tem apoio suficiente (amigos, família, universidade)?" },
+] as const
 
-  const scale = [
-    { v: 1, t: "Nunca" },
-    { v: 2, t: "Raramente" },
-    { v: 3, t: "Às vezes" },
-    { v: 4, t: "Frequente" },
-    { v: 5, t: "Sempre" },
-  ] as const
+// Escala permanece coerente com frequência
+const scale = [
+  { v: 1, t: "Nunca" },
+  { v: 2, t: "Raramente" },
+  { v: 3, t: "Às vezes" },
+  { v: 4, t: "Frequente" },
+  { v: 5, t: "Sempre" },
+] as const
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
