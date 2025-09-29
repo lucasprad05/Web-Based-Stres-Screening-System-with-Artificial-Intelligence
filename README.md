@@ -1,69 +1,64 @@
-# React + TypeScript + Vite
+# 🧠 Projeto Final — Sistema Web de Triagem de Estresse com IA
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação web **responsiva** onde alunos preenchem um formulário sobre hábitos e sentimentos e recebem uma **estimativa do nível de estresse** (Baixo / Moderado / Alto) com base em um **modelo pré-treinado de Machine Learning**.
 
-Currently, two official plugins are available:
+> Dataset: **Student Stress Monitoring** (Kaggle)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 📑 Sumário
+- [Objetivo Geral](#-objetivo-geral)
+- [Arquitetura](#-arquitetura)
+- [Tecnologias](#-tecnologias)
+- [Estrutura do Projeto](#-estrutura-do-projeto)
+- [Como Rodar](#-como-rodar)
+- [API do Backend](#-api-do-backend)
+- [Machine Learning](#-machine-learning)
+- [Formulário (Campos Sugeridos)](#-formulário-campos-sugeridos)
+- [Segurança & Boas Práticas](#-segurança--boas-práticas)
+- [Roadmap](#-roadmap)
+- [Licença](#-licença)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🎯 Objetivo Geral
+Desenvolver uma aplicação web responsiva onde alunos possam preencher um formulário sobre seus hábitos e sentimentos e receber uma **estimativa do nível de estresse** baseada em **modelo de ML** treinado previamente.
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🏗 Arquitetura
+Frontend (React + TS + Tailwind)
+│
+├── Requisições HTTP (axios/fetch)
+│
+Backend (Python + Flask)
+├── /avaliar -> chama Modelo ML (scikit-learn)
+├── /historico -> consulta histórico do usuário (PostgreSQL)
+└── /atualizar -> atualiza histórico (PostgreSQL)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🧰 Tecnologias
+
+**Frontend**
+- React + TypeScript + Vite
+- TailwindCSS
+- Recharts (ou Chart.js) para gráficos
+- React Router
+
+**Backend**
+- Python + Flask (API REST)
+- PostgreSQL (produção) + JSON/arquivo (seed inicial)
+- SQLAlchemy / psycopg2 (ou equivalente)
+
+**Machine Learning**
+- scikit-learn (RandomForestClassifier ou DecisionTree)
+- pandas, numpy
+- joblib para exportar o modelo (`.pkl`)
+
+Para rodar o Front End
+
+npm install
+npm run dev
+
