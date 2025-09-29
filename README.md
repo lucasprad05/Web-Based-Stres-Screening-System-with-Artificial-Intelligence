@@ -2,7 +2,7 @@
 
 Aplicação web **responsiva** onde alunos preenchem um formulário sobre hábitos e sentimentos e recebem uma **estimativa do nível de estresse** (Baixo / Moderado / Alto) com base em um **modelo pré-treinado de Machine Learning**.
 
-> Dataset: **Student Stress Monitoring** (Kaggle)
+> Dataset: [**Student Stress Monitoring**](https://www.kaggle.com/datasets/mdsultanulislamovi/student-stress-monitoring-datasets) (Kaggle)
 
 ---
 
