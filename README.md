@@ -50,6 +50,8 @@ Backend (Python + Flask)
 - pandas, numpy
 - joblib para exportar o modelo (`.pkl`)
 
+---
+
 ## Como Rodar
 
 npm install <br>
