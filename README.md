@@ -59,6 +59,6 @@ Backend (Python + Flask)
 
 Para rodar o Front End
 
-npm install
+npm install <br>
 npm run dev
 
