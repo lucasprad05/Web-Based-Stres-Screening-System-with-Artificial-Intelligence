@@ -1,69 +1,59 @@
-# React + TypeScript + Vite
+# 🧠 StressAI Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interface web do **StressAI**, uma aplicação que avalia o nível de estresse de estudantes com base em um questionário interativo e fornece recomendações personalizadas.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tecnologias Utilizadas
 
-## Expanding the ESLint configuration
+- **React + TypeScript**
+- **Vite** (ou CRA, se aplicável)
+- **React Router DOM**
+- **CSS Modules / Tailwind / MUI** (ajuste conforme seu stack real)
+- **Valibot** (validação de formulários)
+- **Axios / Fetch API** (comunicação com a API FastAPI)
+- **ESLint + Prettier** (padrões de código)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🧩 Estrutura do Projeto
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+WEB-STRESS-AI/
+├── public/ # Arquivos estáticos
+├── src/
+│ ├── assets/ # Ícones, imagens e vetores
+│ ├── components/ # Componentes reutilizáveis (QuestionScale, CircularScore, etc)
+│ ├── context/ # Contextos globais (ex: AuthContext)
+│ ├── pages/ # Páginas da aplicação (Login, Register, FazerTeste, Result)
+│ ├── routes/ # Definição de rotas e proteção de acesso
+│ ├── services/ # Funções de requisição (API, autenticação, etc)
+│ ├── styles/ # Arquivos CSS globais e modulares
+│ ├── utils/ # Funções auxiliares e helpers
+│ ├── App.tsx # Configuração principal de rotas e layout
+│ └── main.tsx # Ponto de entrada do React
+├── .env # Variáveis de ambiente (ex: VITE_API_URL)
+├── vite.config.ts # Configuração do Vite
+├── tsconfig.json # Configuração base do TypeScript
+├── eslint.config.js # Regras de lint
+└── package.json # Dependências e scripts
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## ⚙️ Como Rodar o Projeto Localmente
+
+ - Primeiro rode o Back-End. Siga as instruções do README.md do repositório do Back-End:
+ (LINK DO REP)
+
+ 
+ - Instalar dependências
+```bash
+npm install
+```
+- Configurar variáveis de ambiente
+Crie um arquivo .env na raiz do projeto:
+```bash
+VITE_API_URL=http://localhost:8000
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Rodar o servidor local
+```bash
+npm run dev
 ```
