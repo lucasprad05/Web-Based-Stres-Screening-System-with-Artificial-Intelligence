@@ -9,7 +9,7 @@ Interface web do **StressAI**, uma aplicação que avalia o nível de estresse d
 - **React + TypeScript**
 - **Vite**
 - **React Router DOM**
-- **CSS Modules
+- **CSS Modules**
 - **Axios / Fetch API** (comunicação com a API FastAPI)
 - **ESLint + Prettier** (padrões de código)
 
