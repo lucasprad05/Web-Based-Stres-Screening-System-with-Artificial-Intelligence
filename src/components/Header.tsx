@@ -1,11 +1,16 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useAuth } from "../context/AuthContext"
 import "../styles/header.css"
 
-type HeaderProps = {
-  isLoggedIn: boolean
-}
+export default function Header() {
+  const { isLoggedIn, user, logout } = useAuth()
+  const navigate = useNavigate()
 
-export default function Header({ isLoggedIn }: HeaderProps) {
+  const handleLogout = () => {
+    logout()
+    navigate("/login")
+  }
+
   return (
     <header className="header">
       <div className="logo">
@@ -15,15 +20,18 @@ export default function Header({ isLoggedIn }: HeaderProps) {
       <nav>
         <ul>
           <li><Link to="/">Início</Link></li>
-          <li><Link to="/TestPage">Faça seu teste!</Link></li>
+          <li><Link to="/testPage">Faça seu teste!</Link></li>
 
           {isLoggedIn ? (
-            <li><Link to="/Perfil">Meu perfil</Link></li>
+            <>
+              <li><Link to="/perfil">Meu perfil</Link></li>
+              <li><button onClick={handleLogout} className="logout-btn">Sair</button></li>
+            </>
           ) : (
-            <li><Link to="/Login">Entrar / Cadastrar-se</Link></li>
+            <li><Link to="/login">Entrar / Cadastrar-se</Link></li>
           )}
         </ul>
       </nav>
     </header>
-  )
+  ) 
 }

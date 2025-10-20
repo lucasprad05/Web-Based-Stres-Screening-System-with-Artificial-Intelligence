@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
+import { register, login } from '../services/auth'
+import { useAuth } from '../context/AuthContext'
 import '../styles/register.css'
 
 export default function RegisterForm() {
@@ -6,15 +9,41 @@ export default function RegisterForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const navigate = useNavigate()
+  const { loginWithToken } = useAuth()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Register:', { name, email, password, confirmPassword })
+    setError(null)
+
+    if (password !== confirmPassword) {
+      setError('As senhas não coincidem')
+      return
+    }
+
+    setLoading(true)
+    try {
+      await register({ name, email, password })        // cria usuário
+      const data = await login(email, password)        // pega token
+      await loginWithToken(data.access_token)          // salva e carrega /users/me
+      navigate('/')                                    // redireciona
+    } catch (err: any) {
+      const msg = err?.message || 'Falha ao cadastrar'
+      setError(msg)
+    } finally {
+      setLoading(false)
+    }
   }
+
+  const disabled = loading || !name || !email || !password || !confirmPassword
 
   return (
     <form onSubmit={handleSubmit} className="register-form">
       <h2 className="register-title">Criar conta</h2>
+
+      {error && <p className="register-error">{error}</p>}
 
       {/* Nome */}
       <div className="register-field">
@@ -26,6 +55,7 @@ export default function RegisterForm() {
           onChange={(e) => setName(e.target.value)}
           className="register-input"
           required
+          autoComplete="name"
         />
       </div>
 
@@ -39,6 +69,7 @@ export default function RegisterForm() {
           onChange={(e) => setEmail(e.target.value)}
           className="register-input"
           required
+          autoComplete="email"
         />
       </div>
 
@@ -52,6 +83,7 @@ export default function RegisterForm() {
           onChange={(e) => setPassword(e.target.value)}
           className="register-input"
           required
+          autoComplete="new-password"
         />
       </div>
 
@@ -65,14 +97,17 @@ export default function RegisterForm() {
           onChange={(e) => setConfirmPassword(e.target.value)}
           className="register-input"
           required
+          autoComplete="new-password"
         />
       </div>
 
       <div className="register-actions">
-        <a href="/login" className="register-link">Já tenho uma conta</a>
+        <Link to="/login" className="register-link">Já tenho uma conta</Link>
       </div>
 
-      <button type="submit" className="register-button">Cadastrar</button>
+      <button type="submit" className="register-button" disabled={disabled}>
+        {loading ? 'Cadastrando…' : 'Cadastrar'}
+      </button>
     </form>
   )
 }

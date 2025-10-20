@@ -50,7 +50,9 @@ body {
   transition: color .2s ease;
 }
 
-.logo-link:hover { color: var(--fg); }
+.logo-link:hover {
+  color: var(--fg);
+}
 
 nav ul {
   list-style: none;
@@ -72,7 +74,45 @@ nav a:hover {
   transform: translateY(-1px);
 }
 
-@media (max-width: 768px) {
-  .header { flex-direction: column; align-items: flex-start; gap: .75rem; }
-  nav ul { flex-direction: column; gap: .75rem; }
+/* ===== Botão Sair padronizado ===== */
+.logout-btn {
+  all: unset; /* remove estilo nativo do botão */
+  cursor: pointer;
+  color: var(--fg);
+  font-weight: 500;
+  transition: color .2s ease, transform .1s ease;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1;
 }
+
+.logout-btn:hover {
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.logout-btn:active {
+  transform: translateY(0);
+  opacity: 0.85;
+}
+
+/* mantém alinhamento perfeito com os outros links */
+nav ul li .logout-btn {
+  display: inline-block;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .75rem;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: .75rem;
+  }
+}
+
+
