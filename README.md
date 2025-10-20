@@ -17,24 +17,28 @@ Interface web do **StressAI**, uma aplicação que avalia o nível de estresse d
 
 ## 🧩 Estrutura do Projeto
 
+## 🧩 Estrutura do Projeto
+
+```bash
 WEB-STRESS-AI/
-├── public/ # Arquivos estáticos
+├── public/                   # Arquivos estáticos
 ├── src/
-│ ├── assets/ # Ícones, imagens e vetores
-│ ├── components/ # Componentes reutilizáveis (QuestionScale, CircularScore, etc)
-│ ├── context/ # Contextos globais (ex: AuthContext)
-│ ├── pages/ # Páginas da aplicação (Login, Register, FazerTeste, Result)
-│ ├── routes/ # Definição de rotas e proteção de acesso
-│ ├── services/ # Funções de requisição (API, autenticação, etc)
-│ ├── styles/ # Arquivos CSS globais e modulares
-│ ├── utils/ # Funções auxiliares e helpers
-│ ├── App.tsx # Configuração principal de rotas e layout
-│ └── main.tsx # Ponto de entrada do React
-├── .env # Variáveis de ambiente (ex: VITE_API_URL)
-├── vite.config.ts # Configuração do Vite
-├── tsconfig.json # Configuração base do TypeScript
-├── eslint.config.js # Regras de lint
-└── package.json # Dependências e scripts
+│   ├── assets/               # Ícones, imagens e vetores
+│   ├── components/           # Componentes reutilizáveis (QuestionScale, CircularScore, etc)
+│   ├── context/              # Contextos globais (ex: AuthContext)
+│   ├── pages/                # Páginas da aplicação (Login, Register, FazerTeste, Result)
+│   ├── routes/               # Definição de rotas e proteção de acesso
+│   ├── services/             # Funções de requisição (API, autenticação, etc)
+│   ├── styles/               # Arquivos CSS globais e modulares
+│   ├── utils/                # Funções auxiliares e helpers
+│   ├── App.tsx               # Configuração principal de rotas e layout
+│   └── main.tsx              # Ponto de entrada do React
+├── .env                      # Variáveis de ambiente (ex: VITE_API_URL)
+├── vite.config.ts            # Configuração do Vite
+├── tsconfig.json             # Configuração base do TypeScript
+├── eslint.config.js          # Regras de lint
+└── package.json              # Dependências e scripts
+```
 
 ## ⚙️ Como Rodar o Projeto Localmente
 
