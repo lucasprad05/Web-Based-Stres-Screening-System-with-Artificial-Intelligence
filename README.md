@@ -43,7 +43,8 @@ WEB-STRESS-AI/
 ## ⚙️ Como Rodar o Projeto Localmente
 
  - Primeiro rode o Back-End. Siga as instruções do README.md do repositório do Back-End:
- (LINK DO REP)
+
+https://github.com/lucasprad05/backend
 
  
  - Instalar dependências
