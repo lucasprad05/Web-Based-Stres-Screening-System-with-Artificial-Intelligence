@@ -7,10 +7,9 @@ Interface web do **StressAI**, uma aplicação que avalia o nível de estresse d
 ## 🚀 Tecnologias Utilizadas
 
 - **React + TypeScript**
-- **Vite** (ou CRA, se aplicável)
+- **Vite**
 - **React Router DOM**
-- **CSS Modules / Tailwind / MUI** (ajuste conforme seu stack real)
-- **Valibot** (validação de formulários)
+- **CSS Modules
 - **Axios / Fetch API** (comunicação com a API FastAPI)
 - **ESLint + Prettier** (padrões de código)
 
