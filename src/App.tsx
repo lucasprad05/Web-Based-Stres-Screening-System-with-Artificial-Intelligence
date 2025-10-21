@@ -8,6 +8,7 @@ import LoginPage from "./pages/Login"
 import RegisterPage from "./pages/Register"
 import TestPage from "./pages/TestPage"
 import Result from "./pages/Result"
+import Profile from "./pages/Profile"
 
 export default function App() {
   return (
@@ -20,7 +21,7 @@ export default function App() {
           <Route path="/testPage" element={<TestPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/result" element={<Result />} />
-          <Route path="/perfil" element={<div style={{ padding: 24 }}>Página do Perfil (TODO)</div>} />
+          <Route path="/perfil" element={<Profile />} />
           <Route path="*" element={<div style={{ padding: 24 }}>404</div>} />
         </Routes>
       </main>

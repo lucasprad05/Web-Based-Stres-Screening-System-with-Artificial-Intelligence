@@ -1,4 +1,6 @@
 import { useLocation, Link, useNavigate } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { saveAssessment } from "../services/assessments";
 import "../styles/resultPage.css";
 
 type QuestionId =
@@ -24,7 +26,6 @@ const LABELS: Record<QuestionId, string> = {
 };
 
 function mapToStress(_q: QuestionId, v: number) {
-  // 1 = Nunca (0%), 5 = Sempre (100%)
   return Math.round((v - 1) * 25);
 }
 
@@ -95,6 +96,19 @@ export default function Result() {
 
   const result = compute(answers)!;
   const { percent, level, dims } = result;
+
+  const savedOnce = useRef(false);
+
+  useEffect(() => {
+    if (savedOnce.current) return;
+    if (!answers || Object.keys(answers).length === 0) return;
+
+    savedOnce.current = true;
+
+    saveAssessment(answers).catch(() => {
+      savedOnce.current = false;
+    });
+  }, [answers]);
 
   return (
     <section className="result-shell">
