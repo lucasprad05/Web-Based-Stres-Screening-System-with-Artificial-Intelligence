@@ -9,12 +9,18 @@ export type QuestionId =
 
 export type Answers = Partial<Record<QuestionId, number>>
 
+export type Recommendation = {
+  tag: string
+  text: string
+}
+
 export type AssessmentOut = {
   id: string
   created_at: string
   percent: number
   level: "baixo" | "moderado" | "alto"
   dims: { id: QuestionId; score: number; raw: number }[]
+  recommendations?: Recommendation[]
 }
 
 const API_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:8000"
@@ -30,19 +36,15 @@ function authHeaders(): Record<string, string> {
   return h
 }
 
-export async function saveAssessment(answers: Answers): Promise<AssessmentOut> {
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-    ...authHeaders(),
-  }
-
-  const res = await fetch(`${API_BASE}/assessments`, {
+export async function saveAssessment(answers: Answers) {
+  const res = await fetch("/api/assessments", {
     method: "POST",
-    headers,
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ answers }),
-  })
-  if (!res.ok) throw new Error(`Erro ao salvar assessment (${res.status})`)
-  return res.json()
+  });
+
+  if (!res.ok) throw new Error("Erro ao salvar avaliação");
+  return await res.json(); 
 }
 
 export async function listMyAssessments(): Promise<AssessmentOut[]> {
