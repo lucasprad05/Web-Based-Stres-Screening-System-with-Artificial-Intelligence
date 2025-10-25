@@ -3,6 +3,16 @@ import { getMe, updateEmail, updatePassword, type UserMe } from "../services/use
 import { listMyAssessments, type AssessmentOut } from "../services/assessments"
 import "../styles/profile.css"
 
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts"
+
 function levelBadge(level: AssessmentOut["level"]) {
   return <span className={`badge-level ${level}`}>{level.toUpperCase()}</span>
 }
@@ -69,6 +79,21 @@ export default function Profile() {
       setPwdErr(msg.includes("Senha atual incorreta") ? "Senha atual incorreta" : "Falha ao atualizar senha")
     }
   }
+
+  const chartData = items
+  ? items
+      .slice() // copia
+      .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
+      .map((it) => ({
+        date: new Date(it.created_at).toLocaleDateString("pt-BR", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "2-digit",
+        }),
+        percent: it.percent,
+        level: it.level,
+      }))
+  : []
 
   return (
     <section className="profile-shell">
@@ -156,9 +181,31 @@ export default function Profile() {
             <p>Nenhum teste salvo ainda.</p>
           )}
 
-          <div className="coming-soon">
-            <h2>Gráfico (em breve)</h2>
-            <p>Em breve, um gráfico com a evolução do seu índice de estresse.</p>
+          <div className="chart-section">
+            <h2>Evolução do Índice de Estresse</h2>
+            {chartData.length > 0 ? (
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={chartData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date" />
+                  <YAxis domain={[0, 100]} />
+                  <Tooltip
+                    formatter={(value: any) => `${value}/100`}
+                    labelFormatter={(label) => `Data: ${label}`}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="percent"
+                    stroke="#007bff"
+                    strokeWidth={2}
+                    dot={{ r: 4 }}
+                    activeDot={{ r: 6 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            ) : (
+              <p>Nenhum dado disponível para o gráfico.</p>
+            )}
           </div>
         </>
       )}
