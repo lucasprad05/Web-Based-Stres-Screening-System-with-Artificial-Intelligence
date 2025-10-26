@@ -17,6 +17,39 @@ function levelBadge(level: AssessmentOut["level"]) {
   return <span className={`badge-level ${level}`}>{level.toUpperCase()}</span>
 }
 
+// Define a estrutura de dados esperada pelo payload do Tooltip
+type TooltipPayload = {
+  value: number; // O valor percentual
+  payload: { // Os dados completos do item
+    date: string;
+    percent: number;
+    level: string;
+  }
+}
+
+// Componente Customizado para o Tooltip
+// Recebe as props 'active', 'payload' e 'label' do Recharts
+const CustomTooltip = ({ active, payload, label }: { active?: boolean, payload?: any, label?: string }) => {
+  if (active && payload && payload.length) {
+  // O payload[0].payload contém o objeto de dados completo (date, percent, level)
+  const data = payload[0].payload;
+    return (
+    <div style={{
+        backgroundColor: '#fff',
+        border: '1px solid #ccc',
+        padding: '8px',
+        borderRadius: '4px',
+        fontSize: '14px'
+      }}>
+        <p style={{fontWeight: 700, margin: '0 0 4px 0'}}>Data: {data.date}</p>
+        <p style={{margin: 0}}>Índice: {data.percent}%</p>
+        <p style={{margin: 0}}>Nível: <span style={{fontWeight: 700, color: data.level === 'alto' ? 'red' : data.level === 'moderado' ? 'orange' : 'green'}}>{data.level.toUpperCase()}</span></p>
+      </div>
+    );
+  }
+  return null;
+};
+
 export default function Profile() {
   const [me, setMe] = useState<UserMe | null>(null)
   const [items, setItems] = useState<AssessmentOut[] | null>(null)
@@ -89,8 +122,11 @@ export default function Profile() {
           day: "2-digit",
           month: "2-digit",
           year: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
         }),
-        percent: it.percent,
+        percent: Number(it.percent),
         level: it.level,
       }))
   : []
@@ -190,8 +226,7 @@ export default function Profile() {
                   <XAxis dataKey="date" />
                   <YAxis domain={[0, 100]} />
                   <Tooltip
-                    formatter={(value: any) => `${value}/100`}
-                    labelFormatter={(label) => `Data: ${label}`}
+                    content={<CustomTooltip />}
                   />
                   <Line
                     type="monotone"
