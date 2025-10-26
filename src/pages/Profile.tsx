@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react"
-import { getMe, updateEmail, updatePassword, type UserMe } from "../services/users"
+import { deleteUser, getMe, updateEmail, updatePassword, type UserMe } from "../services/users"
 import { listMyAssessments, type AssessmentOut } from "../services/assessments"
+import { useNavigate } from "react-router-dom"
+import { useAuth } from "../context/AuthContext"
+import Swal from "sweetalert2"
 import "../styles/profile.css"
-
 import {
   LineChart,
   Line,
@@ -51,6 +53,9 @@ const CustomTooltip = ({ active, payload, label }: { active?: boolean, payload?:
 };
 
 export default function Profile() {
+  const navigate = useNavigate()
+  const { logout } = useAuth()
+  
   const [me, setMe] = useState<UserMe | null>(null)
   const [items, setItems] = useState<AssessmentOut[] | null>(null)
   const [loading, setLoading] = useState(true)
@@ -110,6 +115,56 @@ export default function Profile() {
     } catch (e: any) {
       const msg = String(e?.message || "")
       setPwdErr(msg.includes("Senha atual incorreta") ? "Senha atual incorreta" : "Falha ao atualizar senha")
+    }
+  }
+
+  async function onDeleteAccount() {
+    const result = await Swal.fire({
+      title: 'Confirma exclusão da conta?',
+      text: 'Esta ação é irreversível e todos os seus dados serão perdidos.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: "#dc3545",
+      cancelButtonColor: "#6c757d",
+      confirmButtonText: "Sim, excluir conta",
+      cancelButtonText: "Cancelar"
+    })
+
+    if (result.isConfirmed) {
+      try {
+        // Chama o DELETE
+        deleteUser()
+
+        // Mensagem de sucesso
+        Swal.fire({
+          title: 'Conta excluída',
+          text: 'Sua conta foi excluída com sucesso.',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        });
+        console.log("Conta excluída com sucesso.")
+        // Logout e redirecionamento para a página inicial
+        logout()
+        navigate('/')
+      } catch (e: any) {
+        const errorMessage = String(e?.message || "Falha ao excluir conta.");
+
+        // Se o backend retornar 401/404/Erro DEPOIS de ter deletado:
+        if (errorMessage.includes("Usuário inativo/inexiste") || errorMessage.includes("401")) {
+          console.log("Conta já excluída ou usuário inexistente. Realizando logout.")
+          logout()
+          navigate('/')
+          return
+        }
+
+        // Se for houver erro
+        console.error("Erro ao excluir conta:", e)
+        await Swal.fire({
+          title: 'Erro',
+          text: e?.message || 'Falha ao excluir conta.',
+          icon: 'error',
+        })
+      }
     }
   }
 
@@ -244,6 +299,16 @@ export default function Profile() {
           </div>
         </>
       )}
+
+      {/*Exclusão de conta*/}
+      <div className="delete-account-section">
+        <button onClick={onDeleteAccount} className="btn-danger">
+            Excluir Minha Conta
+        </button>
+        <p className="warning">
+            Atenção: Esta ação é irreversível. Ao excluir sua conta, todos os seus dados serão permanentemente removidos do nosso sistema.
+        </p>
+      </div>
     </section>
   )
 }
