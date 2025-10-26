@@ -37,9 +37,11 @@ function authHeaders(): Record<string, string> {
 }
 
 export async function saveAssessment(answers: Answers) {
-  const res = await fetch("/api/assessments", {
+  const res = await fetch(`${API_BASE}/assessments`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json",
+      ...authHeaders()
+     },
     body: JSON.stringify({ answers }),
   });
 

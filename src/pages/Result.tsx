@@ -46,28 +46,6 @@ function compute(answers: Answers) {
   return { percent, level, dims };
 }
 
-function tips(level: StressLevel) {
-  if (level === "alto") {
-    return [
-      { tag: "Priorize", text: "Bloqueie 25–50 min de foco com 5 min de pausa." },
-      { tag: "Sono", text: "Durma 7–9h; evite tela 1h antes de dormir." },
-      { tag: "Apoio", text: "Converse com tutores/coordenação e combine prazos." },
-    ];
-  }
-  if (level === "moderado") {
-    return [
-      { tag: "Ritmo", text: "Pomodoro leve (40/10) 2–3 ciclos por sessão." },
-      { tag: "Organize", text: "2 tarefas essenciais/dia + uma ‘bônus’." },
-      { tag: "Corpo", text: "Alongue-se a cada 90 min." },
-    ];
-  }
-  return [
-    { tag: "Mantenha", text: "Continue com pausas curtas e rotina de sono." },
-    { tag: "Revisão", text: "Reveja metas semanais na sexta." },
-    { tag: "Reserve", text: "Bloco de lazer focado, sem culpa." },
-  ];
-}
-
 export default function Result() {
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -116,7 +94,7 @@ export default function Result() {
   const percent = backendResult?.percent ?? computed.percent;
   const level = backendResult?.level ?? computed.level;
   const dims = backendResult?.dims ?? computed.dims;
-  const recs = backendResult?.recommendations ?? tips(level);
+  const recs = backendResult?.recommendations;
 
   return (
     <section className="result-shell">
@@ -234,31 +212,35 @@ export default function Result() {
             </div>
 
             <ul className="action-list">
-              {recs.map((t, idx) => (
-                <li key={idx}>
-                  <div className="action-head">
-                    <span
-                      className={`badge-tip ${level === "alto" ? "warn" : ""}`}
-                    >
-                      {t.tag}
-                    </span>
-                    <div className="dim-label">{t.text}</div>
-                  </div>
-                  <div className="action-cta">
-                    <Link className="mini-btn" to="/testPage">
-                      Refazer foco
-                    </Link>
-                    <button
-                      className="mini-btn ghost"
-                      onClick={() =>
-                        window.scrollTo({ top: 0, behavior: "smooth" })
-                      }
-                    >
-                      Revisar
-                    </button>
+              {!recs ? (
+                <li>
+                  <div className="loading-recs">
+                    <p>Gerando recomendações personalizadas...</p>
                   </div>
                 </li>
-              ))}
+              ) : (
+                recs.map((t, idx) => (
+                  <li key={idx}>
+                    <div className="action-head">
+                      <span className={`badge-tip ${level === "alto" ? "warn" : ""}`}>
+                        {t.tag}
+                      </span>
+                      <div className="dim-label">{t.text}</div>
+                    </div>
+                    <div className="action-cta">
+                      <Link className="mini-btn" to="/testPage">
+                        Refazer foco
+                      </Link>
+                      <button
+                        className="mini-btn ghost"
+                        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                      >
+                        Revisar
+                      </button>
+                    </div>
+                  </li>
+                ))
+              )}
             </ul>
 
             <hr className="divider" />
