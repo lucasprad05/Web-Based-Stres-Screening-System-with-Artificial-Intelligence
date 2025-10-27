@@ -64,7 +64,6 @@ export default function LoginForm() {
       </div>
 
       <div className="login-actions">
-        <Link to="/forgot-password" className="login-link">Esqueci minha senha</Link>
         <Link to="/register" className="login-link">Cadastrar-me</Link>
       </div>
 
