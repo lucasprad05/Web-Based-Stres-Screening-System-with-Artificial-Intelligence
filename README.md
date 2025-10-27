@@ -78,4 +78,5 @@ def grant_scopes(user: dict, requested_scopes: Optional[List[str]]):
 ```
 A função acima define os **escopos de autorização** que um usuário pode acessar.  
 Ela garante que apenas os escopos válidos sejam concedidos no token JWT.
+
 <strong>Autenticação e Autorização são encontradas no repositorio do backend em app/core/security.py</strong>
