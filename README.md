@@ -17,8 +17,6 @@ Interface web do **StressAI**, uma aplicação que avalia o nível de estresse d
 
 ## 🧩 Estrutura do Projeto
 
-## 🧩 Estrutura do Projeto
-
 ```bash
 WEB-STRESS-AI/
 ├── public/                   # Arquivos estáticos
