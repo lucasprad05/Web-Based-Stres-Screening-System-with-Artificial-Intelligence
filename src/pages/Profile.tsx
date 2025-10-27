@@ -1,13 +1,61 @@
 import { useEffect, useState } from "react"
-import { getMe, updateEmail, updatePassword, type UserMe } from "../services/users"
+import { deleteUser, getMe, updateEmail, updatePassword, type UserMe } from "../services/users"
 import { listMyAssessments, type AssessmentOut } from "../services/assessments"
+import { useNavigate } from "react-router-dom"
+import { useAuth } from "../context/AuthContext"
+import Swal from "sweetalert2"
 import "../styles/profile.css"
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts"
 
 function levelBadge(level: AssessmentOut["level"]) {
   return <span className={`badge-level ${level}`}>{level.toUpperCase()}</span>
 }
 
+// Define a estrutura de dados esperada pelo payload do Tooltip
+//type TooltipPayload = {
+// value: number; // O valor percentual
+// payload: { // Os dados completos do item
+//   date: string;
+//  percent: number;
+//   level: string;
+// }
+//}
+
+// Componente Customizado para o Tooltip
+// Recebe as props 'active', 'payload' e 'label' do Recharts
+const CustomTooltip = ({ active, payload}: { active?: boolean, payload?: any, label?: string }) => {
+  if (active && payload && payload.length) {
+  // O payload[0].payload contém o objeto de dados completo (date, percent, level)
+  const data = payload[0].payload;
+    return (
+    <div style={{
+        backgroundColor: '#fff',
+        border: '1px solid #ccc',
+        padding: '8px',
+        borderRadius: '4px',
+        fontSize: '14px'
+      }}>
+        <p style={{fontWeight: 700, margin: '0 0 4px 0'}}>Data: {data.date}</p>
+        <p style={{margin: 0}}>Índice: {data.percent}%</p>
+        <p style={{margin: 0}}>Nível: <span style={{fontWeight: 700, color: data.level === 'alto' ? 'red' : data.level === 'moderado' ? 'orange' : 'green'}}>{data.level.toUpperCase()}</span></p>
+      </div>
+    );
+  }
+  return null;
+};
+
 export default function Profile() {
+  const navigate = useNavigate()
+  const { logout } = useAuth()
+  
   const [me, setMe] = useState<UserMe | null>(null)
   const [items, setItems] = useState<AssessmentOut[] | null>(null)
   const [loading, setLoading] = useState(true)
@@ -69,6 +117,74 @@ export default function Profile() {
       setPwdErr(msg.includes("Senha atual incorreta") ? "Senha atual incorreta" : "Falha ao atualizar senha")
     }
   }
+
+  async function onDeleteAccount() {
+    const result = await Swal.fire({
+      title: 'Confirma exclusão da conta?',
+      text: 'Esta ação é irreversível e todos os seus dados serão perdidos.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: "#dc3545",
+      cancelButtonColor: "#6c757d",
+      confirmButtonText: "Sim, excluir conta",
+      cancelButtonText: "Cancelar"
+    })
+
+    if (result.isConfirmed) {
+      try {
+        // Chama o DELETE
+        deleteUser()
+
+        // Mensagem de sucesso
+        Swal.fire({
+          title: 'Conta excluída',
+          text: 'Sua conta foi excluída com sucesso.',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        });
+        console.log("Conta excluída com sucesso.")
+        // Logout e redirecionamento para a página inicial
+        logout()
+        navigate('/')
+      } catch (e: any) {
+        const errorMessage = String(e?.message || "Falha ao excluir conta.");
+
+        // Se o backend retornar 401/404/Erro DEPOIS de ter deletado:
+        if (errorMessage.includes("Usuário inativo/inexiste") || errorMessage.includes("401")) {
+          console.log("Conta já excluída ou usuário inexistente. Realizando logout.")
+          logout()
+          navigate('/')
+          return
+        }
+
+        // Se for houver erro
+        console.error("Erro ao excluir conta:", e)
+        await Swal.fire({
+          title: 'Erro',
+          text: e?.message || 'Falha ao excluir conta.',
+          icon: 'error',
+        })
+      }
+    }
+  }
+
+  const chartData = items
+  ? items
+      .slice() // copia
+      .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
+      .map((it) => ({
+        date: new Date(it.created_at).toLocaleDateString("pt-BR", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        }),
+        percent: Number(it.percent),
+        level: it.level,
+      }))
+  : []
 
   return (
     <section className="profile-shell">
@@ -156,12 +272,43 @@ export default function Profile() {
             <p>Nenhum teste salvo ainda.</p>
           )}
 
-          <div className="coming-soon">
-            <h2>Gráfico (em breve)</h2>
-            <p>Em breve, um gráfico com a evolução do seu índice de estresse.</p>
+          <div className="chart-section">
+            <h2>Evolução do Índice de Estresse</h2>
+            {chartData.length > 0 ? (
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={chartData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date" />
+                  <YAxis domain={[0, 100]} />
+                  <Tooltip
+                    content={<CustomTooltip />}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="percent"
+                    stroke="#007bff"
+                    strokeWidth={2}
+                    dot={{ r: 4 }}
+                    activeDot={{ r: 6 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            ) : (
+              <p>Nenhum dado disponível para o gráfico.</p>
+            )}
           </div>
         </>
       )}
+
+      {/*Exclusão de conta*/}
+      <div className="delete-account-section">
+        <button onClick={onDeleteAccount} className="btn-danger">
+            Excluir Minha Conta
+        </button>
+        <p className="warning">
+            Atenção: Esta ação é irreversível. Ao excluir sua conta, todos os seus dados serão permanentemente removidos do nosso sistema.
+        </p>
+      </div>
     </section>
   )
 }

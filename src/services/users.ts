@@ -18,6 +18,29 @@ export type UserMe = {
   scopes: string[]
 }
 
+// Função de exclusão de usuário
+export async function deleteUser(): Promise<void> {
+    const headers = authHeaders()
+    if (!headers.Authorization) throw new Error('Não autenticado')
+
+    const response = await fetch(`${API_BASE}/users/me`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            ...headers,
+        },
+    })
+
+    if (response.status === 204) {
+        // HTTP 204 No Content indica sucesso
+        return
+    }
+
+    // Trata erros 400, 404, 401, etc.
+    const errorData = await response.json()
+    throw new Error(errorData.detail || `Falha ao excluir conta. Status: ${response.status}`)
+}
+
 export async function getMe(): Promise<UserMe> {
   const res = await fetch(`${API_BASE}/users/me`, { headers: authHeaders() })
   if (!res.ok) throw new Error("Falha ao obter usuário")

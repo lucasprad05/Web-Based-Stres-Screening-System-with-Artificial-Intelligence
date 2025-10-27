@@ -21,7 +21,8 @@ export default function LoginForm() {
       await loginWithToken(data.access_token)       // salva token + busca /users/me
       navigate('/')                                 // redireciona pós-login
     } catch (err: any) {
-      const msg = err?.message || 'Credenciais inválidas'
+      // Mensagem de erro genérica para evitar vazamento de info, mas de forma humanizada
+      const msg = 'Falha no login. Verifique suas credenciais e tente novamente.'
       setError(msg)
     } finally {
       setLoading(false)
@@ -63,7 +64,6 @@ export default function LoginForm() {
       </div>
 
       <div className="login-actions">
-        <Link to="/forgot-password" className="login-link">Esqueci minha senha</Link>
         <Link to="/register" className="login-link">Cadastrar-me</Link>
       </div>
 
