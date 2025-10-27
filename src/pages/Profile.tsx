@@ -20,18 +20,18 @@ function levelBadge(level: AssessmentOut["level"]) {
 }
 
 // Define a estrutura de dados esperada pelo payload do Tooltip
-type TooltipPayload = {
-  value: number; // O valor percentual
-  payload: { // Os dados completos do item
-    date: string;
-    percent: number;
-    level: string;
-  }
-}
+//type TooltipPayload = {
+// value: number; // O valor percentual
+// payload: { // Os dados completos do item
+//   date: string;
+//  percent: number;
+//   level: string;
+// }
+//}
 
 // Componente Customizado para o Tooltip
 // Recebe as props 'active', 'payload' e 'label' do Recharts
-const CustomTooltip = ({ active, payload, label }: { active?: boolean, payload?: any, label?: string }) => {
+const CustomTooltip = ({ active, payload}: { active?: boolean, payload?: any, label?: string }) => {
   if (active && payload && payload.length) {
   // O payload[0].payload contém o objeto de dados completo (date, percent, level)
   const data = payload[0].payload;
