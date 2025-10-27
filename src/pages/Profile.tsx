@@ -132,26 +132,42 @@ export default function Profile() {
       cancelButtonColor: "#6c757d",
       confirmButtonText: "Sim, excluir conta",
       cancelButtonText: "Cancelar"
-    });
+    })
 
     if (result.isConfirmed) {
       try {
-        await deleteUser();
+        // Chama o DELETE
+        deleteUser()
+
+        // Mensagem de sucesso
         Swal.fire({
           title: 'Conta excluída',
           text: 'Sua conta foi excluída com sucesso.',
           icon: 'success',
           confirmButtonText: 'OK',
         });
-        logout();
-        navigate('/');
+        console.log("Conta excluída com sucesso.")
+        // Logout e redirecionamento para a página inicial
+        logout()
+        navigate('/')
       } catch (e: any) {
-        console.error("Erro ao excluir conta:", e);
+        const errorMessage = String(e?.message || "Falha ao excluir conta.");
+
+        // Se o backend retornar 401/404/Erro DEPOIS de ter deletado:
+        if (errorMessage.includes("Usuário inativo/inexiste") || errorMessage.includes("401")) {
+          console.log("Conta já excluída ou usuário inexistente. Realizando logout.")
+          logout()
+          navigate('/')
+          return
+        }
+
+        // Se for houver erro
+        console.error("Erro ao excluir conta:", e)
         await Swal.fire({
           title: 'Erro',
           text: e?.message || 'Falha ao excluir conta.',
           icon: 'error',
-        });
+        })
       }
     }
   }
