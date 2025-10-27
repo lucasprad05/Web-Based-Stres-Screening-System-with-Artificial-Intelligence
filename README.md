@@ -59,3 +59,21 @@ VITE_API_URL=http://localhost:8000
 ```bash
 npm run dev
 ```
+
+## Autenticação (Login e Token JWT)
+Está no endpoint: POST /auth/token
+A autenticação ocorre quando o usuário envia e-mail e senha, e o sistema:
+- verifica as credenciais (verify_credentials),
+- emite um JWT token via create_access_token,
+- inclui dentro do token os scopes (permissões) concedidos.
+-> Isso garante que apenas usuários válidos recebem um token de acesso.
+
+## Autorização (Controle de Acesso)
+A autorização acontece nas dependências das rotas protegidas, como:
+```python
+def grant_scopes(user: dict, requested_scopes: Optional[List[str]]):
+    req = list(set(requested_scopes or []))
+    granted = [s for s in req if s in user["scopes"]]
+    return granted or ["read"]
+```
+## Autenticação e Autorização são encontradas no repositorio do backend em app/core/security.py
