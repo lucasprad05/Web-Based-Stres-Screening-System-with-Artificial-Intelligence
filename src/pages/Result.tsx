@@ -1,6 +1,7 @@
 import { useLocation, Link, useNavigate } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { saveAssessment } from "../services/assessments";
+import type { AssessmentOut } from "../services/assessments";
 import "../styles/resultPage.css";
 
 type QuestionId =
@@ -38,47 +39,42 @@ function compute(answers: Answers) {
     return { id: q, score, raw: v };
   });
 
-  const percent = Math.round(
-    dims.reduce((a, b) => a + b.score, 0) / dims.length
-  );
+  const percent = Math.round(dims.reduce((a, b) => a + b.score, 0) / dims.length);
   let level: StressLevel = "baixo";
   if (percent >= 35 && percent < 65) level = "moderado";
   if (percent >= 65) level = "alto";
   return { percent, level, dims };
 }
 
-function tips(level: StressLevel) {
-  if (level === "alto") {
-    return [
-      {
-        tag: "Priorize",
-        text: "Bloqueie 25–50 min de foco com 5 min de pausa.",
-      },
-      { tag: "Sono", text: "Durma 7–9h; evite tela 1h antes de dormir." },
-      {
-        tag: "Apoio",
-        text: "Converse com tutores/coordenação e combine prazos.",
-      },
-    ];
-  }
-  if (level === "moderado") {
-    return [
-      { tag: "Ritmo", text: "Pomodoro leve (40/10) 2–3 ciclos por sessão." },
-      { tag: "Organize", text: "2 tarefas essenciais/dia + uma ‘bônus’." },
-      { tag: "Corpo", text: "Alongue-se a cada 90 min." },
-    ];
-  }
-  return [
-    { tag: "Mantenha", text: "Continue com pausas curtas e rotina de sono." },
-    { tag: "Revisão", text: "Reveja metas semanais na sexta." },
-    { tag: "Reserve", text: "Bloco de lazer focado, sem culpa." },
-  ];
-}
-
 export default function Result() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const answers: Answers | undefined = state?.answers;
+
+  const [backendResult, setBackendResult] = useState<AssessmentOut | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  const savedOnce = useRef(false);
+
+  useEffect(() => {
+    if (savedOnce.current || !answers || Object.keys(answers).length === 0) return;
+
+    const save = async () => {
+      try {
+        setSaving(true);
+        const res = await saveAssessment(answers);
+        setBackendResult(res);
+        savedOnce.current = true;
+      } catch (err) {
+        console.error("Erro ao salvar avaliação:", err);
+        savedOnce.current = false;
+      } finally {
+        setSaving(false);
+      }
+    };
+
+    save();
+  }, [answers]);
 
   if (!answers || Object.keys(answers).length === 0) {
     return (
@@ -94,21 +90,11 @@ export default function Result() {
     );
   }
 
-  const result = compute(answers)!;
-  const { percent, level, dims } = result;
-
-  const savedOnce = useRef(false);
-
-  useEffect(() => {
-    if (savedOnce.current) return;
-    if (!answers || Object.keys(answers).length === 0) return;
-
-    savedOnce.current = true;
-
-    saveAssessment(answers).catch(() => {
-      savedOnce.current = false;
-    });
-  }, [answers]);
+  const computed = compute(answers)!;
+  const percent = backendResult?.percent ?? computed.percent;
+  const level = backendResult?.level ?? computed.level;
+  const dims = backendResult?.dims ?? computed.dims;
+  const recs = backendResult?.recommendations;
 
   return (
     <section className="result-shell">
@@ -226,31 +212,35 @@ export default function Result() {
             </div>
 
             <ul className="action-list">
-              {tips(level).map((t, idx) => (
-                <li key={idx}>
-                  <div className="action-head">
-                    <span
-                      className={`badge-tip ${level === "alto" ? "warn" : ""}`}
-                    >
-                      {t.tag}
-                    </span>
-                    <div className="dim-label">{t.text}</div>
-                  </div>
-                  <div className="action-cta">
-                    <Link className="mini-btn" to="/testPage">
-                      Refazer foco
-                    </Link>
-                    <button
-                      className="mini-btn ghost"
-                      onClick={() =>
-                        window.scrollTo({ top: 0, behavior: "smooth" })
-                      }
-                    >
-                      Revisar
-                    </button>
+              {!recs ? (
+                <li>
+                  <div className="loading-recs">
+                    <p>Gerando recomendações personalizadas...</p>
                   </div>
                 </li>
-              ))}
+              ) : (
+                recs.map((t, idx) => (
+                  <li key={idx}>
+                    <div className="action-head">
+                      <span className={`badge-tip ${level === "alto" ? "warn" : ""}`}>
+                        {t.tag}
+                      </span>
+                      <div className="dim-label">{t.text}</div>
+                    </div>
+                    <div className="action-cta">
+                      <Link className="mini-btn" to="/testPage">
+                        Refazer foco
+                      </Link>
+                      <button
+                        className="mini-btn ghost"
+                        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                      >
+                        Revisar
+                      </button>
+                    </div>
+                  </li>
+                ))
+              )}
             </ul>
 
             <hr className="divider" />
@@ -273,6 +263,12 @@ export default function Result() {
           </div>
         </aside>
       </div>
+
+      {saving && (
+        <div className="saving-overlay">
+          <p>Salvando resultado...</p>
+        </div>
+      )}
     </section>
   );
 }
