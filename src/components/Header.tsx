@@ -2,19 +2,21 @@ import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 import "../styles/header.css"
 
+// Componente de cabeçalho da aplicação
 export default function Header() {
-  const { isLoggedIn, user, logout } = useAuth()
-  const navigate = useNavigate()
+  const { isLoggedIn, user, logout } = useAuth() // pega estado de autenticação
+  const navigate = useNavigate() // hook para navegação programática
 
+  // Função chamada ao clicar em "Sair"
   const handleLogout = () => {
-    logout()
-    navigate("/login")
+    logout() // limpa token e estado do usuário
+    navigate("/login") // redireciona para página de login
   }
 
   return (
     <header className="header">
       <div className="logo">
-        <Link to="/" className="logo-link">StudStress AI</Link>
+        <Link to="/" className="logo-link">StudStress AI</Link> {/* logo clicável */}
       </div>
 
       <nav>
@@ -24,8 +26,8 @@ export default function Header() {
 
           {isLoggedIn ? (
             <>
-              <li><Link to="/perfil">Meu perfil</Link></li>
-              <li><button onClick={handleLogout} className="logout-btn">Sair</button></li>
+              <li><Link to="/perfil">Meu perfil</Link></li> {/* link para área do usuário */}
+              <li><button onClick={handleLogout} className="logout-btn">Sair</button></li> {/* botão de logout */}
             </>
           ) : (
             <li><Link to="/login">Entrar / Cadastrar-se</Link></li>

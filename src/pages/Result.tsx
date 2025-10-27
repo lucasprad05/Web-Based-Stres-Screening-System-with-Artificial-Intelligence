@@ -1,13 +1,20 @@
+// Importa hooks do React e funções do React Router
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+
+// Função para salvar avaliação no backend
 import { saveAssessment } from "../services/assessments";
 import type { AssessmentOut } from "../services/assessments";
+
+// Importa estilos da página
 import "../styles/resultPage.css";
 
+// Tipos das perguntas e respostas
 type QuestionId = "sono" | "carga" | "prazo" | "preocupacao" | "pausas" | "sintomas" | "apoio";
 type Answers = Partial<Record<QuestionId, number>>;
 type StressLevel = "baixo" | "moderado" | "alto";
 
+// Labels para exibir nomes das dimensões
 const LABELS: Record<QuestionId, string> = {
   sono: "Sono",
   carga: "Carga",
@@ -18,10 +25,12 @@ const LABELS: Record<QuestionId, string> = {
   apoio: "Apoio",
 };
 
+// Converte resposta de 1..5 para percentual de estresse (0..100)
 function mapToStress(_q: QuestionId, v: number) {
   return Math.round((v - 1) * 25);
 }
 
+// Calcula percentuais, nível de estresse e dimensões individuais
 function compute(answers: Answers) {
   const entries = Object.entries(answers) as [QuestionId, number][];
   if (!entries.length) return null;
@@ -32,23 +41,31 @@ function compute(answers: Answers) {
   });
 
   const percent = Math.round(dims.reduce((a, b) => a + b.score, 0) / dims.length);
+
   let level: StressLevel = "baixo";
   if (percent >= 35 && percent < 65) level = "moderado";
   if (percent >= 65) level = "alto";
+
   return { percent, level, dims };
 }
 
+// Componente principal da página de resultados
 export default function Result() {
   const { state } = useLocation();
   const navigate = useNavigate();
+
+  // Recebe respostas passadas via navegação do teste
   const answers: Answers | undefined = state?.answers;
 
+  // Estado para guardar resultado retornado do backend
   const [backendResult, setBackendResult] = useState<AssessmentOut | null>(null);
   const [saving, setSaving] = useState(false);
 
+  // Flags para controlar salvamento e evitar múltiplos requests
   const savedOnce = useRef(false);
   const inFlight = useRef(false);
 
+  // Salva avaliação no backend assim que o componente monta e há respostas
   useEffect(() => {
     if (!answers || Object.keys(answers).length === 0) return;
     if (savedOnce.current || inFlight.current) return;
@@ -73,6 +90,7 @@ export default function Result() {
     run();
   }, [answers]);
 
+  // Caso não haja respostas, exibe mensagem e link para refazer teste
   if (!answers || Object.keys(answers).length === 0) {
     return (
       <section className="main-hero">
@@ -86,6 +104,7 @@ export default function Result() {
     );
   }
 
+  // Computa resultado local caso backend ainda não tenha retornado
   const computed = compute(answers)!;
   const percent = backendResult?.percent ?? computed.percent;
   const level = backendResult?.level ?? computed.level;
@@ -112,6 +131,7 @@ export default function Result() {
 
       <div className="result-grid">
         <div className="left-col">
+          {/* Exibe índice estimado em um gráfico circular */}
           <div className="score-hero">
             <div className="ring">
               <div className="ring-fill" style={{ ["--p" as any]: `${percent}` }} />
@@ -134,6 +154,7 @@ export default function Result() {
             </div>
           </div>
 
+          {/* KPIs resumidos */}
           <div className="result-summary">
             <div className="kpi-card">
               <p className="kpi-label">Perguntas respondidas</p>
@@ -158,6 +179,7 @@ export default function Result() {
             </div>
           </div>
 
+          {/* Barras de dimensões */}
           <div className="chart-block">
             <div className="chart-header">
               <h2>Que áreas mais pesam?</h2>
@@ -185,6 +207,7 @@ export default function Result() {
         </div>
 
         <aside className="right-col">
+          {/* Recomendações do teste */}
           <div className="card-slab">
             <div className="result-header">
               <h2>Recomendações</h2>
@@ -206,9 +229,7 @@ export default function Result() {
                       <div className="dim-label">{t.text}</div>
                     </div>
                     <div className="action-cta">
-                      <Link className="mini-btn" to="/testPage">
-                        Refazer foco
-                      </Link>
+                      <Link className="mini-btn" to="/testPage">Refazer foco</Link>
                       <button className="mini-btn ghost" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
                         Revisar
                       </button>
@@ -224,6 +245,7 @@ export default function Result() {
             </p>
           </div>
 
+          {/* Detalhamento por dimensão */}
           <div className="card-slab">
             <h2>Detalhe por dimensão</h2>
             <ul className="dimension-breakdown">
@@ -238,6 +260,7 @@ export default function Result() {
         </aside>
       </div>
 
+      {/* Overlay de salvamento */}
       {saving && (
         <div className="saving-overlay">
           <p>Salvando resultado...</p>
