@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react"
-import { deleteUser, getMe, updateEmail, updatePassword, type UserMe } from "../services/users"
-import { listMyAssessments, type AssessmentOut } from "../services/assessments"
-import { useNavigate } from "react-router-dom"
-import { useAuth } from "../context/AuthContext"
-import Swal from "sweetalert2"
-import "../styles/profile.css"
+// Importações de hooks do React, serviços de API e roteamento
+import { useEffect, useState } from "react";
+import { deleteUser, getMe, updateEmail, updatePassword, type UserMe } from "../services/users";
+import { listMyAssessments, type AssessmentOut } from "../services/assessments";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import Swal from "sweetalert2";
+import "../styles/profile.css";
+
+// Importações do Recharts para gráfico de linha
 import {
   LineChart,
   Line,
@@ -13,111 +16,112 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-} from "recharts"
+} from "recharts";
 
+// Função para exibir badge de nível de estresse
 function levelBadge(level: AssessmentOut["level"]) {
-  return <span className={`badge-level ${level}`}>{level.toUpperCase()}</span>
+  return <span className={`badge-level ${level}`}>{level.toUpperCase()}</span>;
 }
 
-// Define a estrutura de dados esperada pelo payload do Tooltip
-//type TooltipPayload = {
-// value: number; // O valor percentual
-// payload: { // Os dados completos do item
-//   date: string;
-//  percent: number;
-//   level: string;
-// }
-//}
-
-// Componente Customizado para o Tooltip
-// Recebe as props 'active', 'payload' e 'label' do Recharts
-const CustomTooltip = ({ active, payload}: { active?: boolean, payload?: any, label?: string }) => {
+// Tooltip customizado para gráfico de evolução
+const CustomTooltip = ({ active, payload }: { active?: boolean, payload?: any, label?: string }) => {
   if (active && payload && payload.length) {
-  // O payload[0].payload contém o objeto de dados completo (date, percent, level)
-  const data = payload[0].payload;
+    const data = payload[0].payload;
     return (
-    <div style={{
-        backgroundColor: '#fff',
-        border: '1px solid #ccc',
-        padding: '8px',
-        borderRadius: '4px',
-        fontSize: '14px'
-      }}>
-        <p style={{fontWeight: 700, margin: '0 0 4px 0'}}>Data: {data.date}</p>
-        <p style={{margin: 0}}>Índice: {data.percent}%</p>
-        <p style={{margin: 0}}>Nível: <span style={{fontWeight: 700, color: data.level === 'alto' ? 'red' : data.level === 'moderado' ? 'orange' : 'green'}}>{data.level.toUpperCase()}</span></p>
+      <div style={{
+          backgroundColor: '#fff',
+          border: '1px solid #ccc',
+          padding: '8px',
+          borderRadius: '4px',
+          fontSize: '14px'
+        }}>
+        <p style={{ fontWeight: 700, margin: '0 0 4px 0' }}>Data: {data.date}</p>
+        <p style={{ margin: 0 }}>Índice: {data.percent}%</p>
+        <p style={{ margin: 0 }}>
+          Nível: <span style={{ fontWeight: 700, color: data.level === 'alto' ? 'red' : data.level === 'moderado' ? 'orange' : 'green' }}>
+            {data.level.toUpperCase()}
+          </span>
+        </p>
       </div>
     );
   }
   return null;
 };
 
+// Componente principal da página de perfil
 export default function Profile() {
-  const navigate = useNavigate()
-  const { logout } = useAuth()
-  
-  const [me, setMe] = useState<UserMe | null>(null)
-  const [items, setItems] = useState<AssessmentOut[] | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [err, setErr] = useState<string | null>(null)
+  const navigate = useNavigate();
+  const { logout } = useAuth();
 
-  const [email, setEmail] = useState("")
-  const [emailPwd, setEmailPwd] = useState("")
-  const [emailMsg, setEmailMsg] = useState<string | null>(null)
-  const [emailErr, setEmailErr] = useState<string | null>(null)
+  // Estados para dados do usuário e histórico de testes
+  const [me, setMe] = useState<UserMe | null>(null);
+  const [items, setItems] = useState<AssessmentOut[] | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState<string | null>(null);
 
-  const [curPwd, setCurPwd] = useState("")
-  const [newPwd, setNewPwd] = useState("")
-  const [pwdMsg, setPwdMsg] = useState<string | null>(null)
-  const [pwdErr, setPwdErr] = useState<string | null>(null)
+  // Estados para atualização de e-mail
+  const [email, setEmail] = useState("");
+  const [emailPwd, setEmailPwd] = useState("");
+  const [emailMsg, setEmailMsg] = useState<string | null>(null);
+  const [emailErr, setEmailErr] = useState<string | null>(null);
 
+  // Estados para atualização de senha
+  const [curPwd, setCurPwd] = useState("");
+  const [newPwd, setNewPwd] = useState("");
+  const [pwdMsg, setPwdMsg] = useState<string | null>(null);
+  const [pwdErr, setPwdErr] = useState<string | null>(null);
+
+  // Carrega dados do usuário e histórico ao montar componente
   useEffect(() => {
-    let mounted = true
-    ;(async () => {
+    let mounted = true;
+    (async () => {
       try {
-        const [u, hist] = await Promise.all([getMe(), listMyAssessments()])
-        if (!mounted) return
-        setMe(u)
-        setEmail(u.email)
-        setItems(hist)
+        const [u, hist] = await Promise.all([getMe(), listMyAssessments()]);
+        if (!mounted) return;
+        setMe(u);
+        setEmail(u.email);
+        setItems(hist);
       } catch (e: any) {
-        if (mounted) setErr(e?.message ?? "Erro")
+        if (mounted) setErr(e?.message ?? "Erro");
       } finally {
-        if (mounted) setLoading(false)
+        if (mounted) setLoading(false);
       }
-    })()
-    return () => { mounted = false }
-  }, [])
+    })();
+    return () => { mounted = false; };
+  }, []);
 
+  // Submete atualização de e-mail
   async function onSubmitEmail(e: React.FormEvent) {
-    e.preventDefault()
-    setEmailMsg(null); setEmailErr(null)
+    e.preventDefault();
+    setEmailMsg(null); setEmailErr(null);
     try {
-      const updated = await updateEmail(email, emailPwd)
-      setMe(updated)
-      setEmail(updated.email)
-      setEmailPwd("")
-      setEmailMsg("E-mail atualizado com sucesso")
+      const updated = await updateEmail(email, emailPwd);
+      setMe(updated);
+      setEmail(updated.email);
+      setEmailPwd("");
+      setEmailMsg("E-mail atualizado com sucesso");
     } catch (e: any) {
-      const msg = String(e?.message || "")
-      setEmailErr(msg.includes("Senha atual incorreta") ? "Senha atual incorreta" : "Falha ao atualizar e-mail")
+      const msg = String(e?.message || "");
+      setEmailErr(msg.includes("Senha atual incorreta") ? "Senha atual incorreta" : "Falha ao atualizar e-mail");
     }
   }
 
+  // Submete atualização de senha
   async function onSubmitPassword(e: React.FormEvent) {
-    e.preventDefault()
-    setPwdMsg(null); setPwdErr(null)
+    e.preventDefault();
+    setPwdMsg(null); setPwdErr(null);
     try {
-      await updatePassword(curPwd, newPwd)
-      setCurPwd("")
-      setNewPwd("")
-      setPwdMsg("Senha alterada com sucesso")
+      await updatePassword(curPwd, newPwd);
+      setCurPwd("");
+      setNewPwd("");
+      setPwdMsg("Senha alterada com sucesso");
     } catch (e: any) {
-      const msg = String(e?.message || "")
-      setPwdErr(msg.includes("Senha atual incorreta") ? "Senha atual incorreta" : "Falha ao atualizar senha")
+      const msg = String(e?.message || "");
+      setPwdErr(msg.includes("Senha atual incorreta") ? "Senha atual incorreta" : "Falha ao atualizar senha");
     }
   }
 
+  // Exclui conta do usuário
   async function onDeleteAccount() {
     const result = await Swal.fire({
       title: 'Confirma exclusão da conta?',
@@ -168,23 +172,17 @@ export default function Profile() {
     }
   }
 
+  // Prepara dados para gráfico de linha
   const chartData = items
-  ? items
-      .slice() // copia
-      .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
-      .map((it) => ({
-        date: new Date(it.created_at).toLocaleDateString("pt-BR", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-        }),
-        percent: Number(it.percent),
-        level: it.level,
-      }))
-  : []
+    ? items
+        .slice()
+        .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
+        .map((it) => ({
+          date: new Date(it.created_at).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" }),
+          percent: Number(it.percent),
+          level: it.level,
+        }))
+    : [];
 
   return (
     <section className="profile-shell">
@@ -198,6 +196,7 @@ export default function Profile() {
 
       {me && (
         <div className="profile-grid">
+          {/* Dados básicos */}
           <div className="card">
             <h2>Dados básicos</h2>
             <div className="kv">
@@ -206,6 +205,7 @@ export default function Profile() {
             </div>
           </div>
 
+          {/* Formulário de atualização de e-mail */}
           <div className="card">
             <h2>Alterar e-mail</h2>
             <form onSubmit={onSubmitEmail} className="form-grid">
@@ -223,6 +223,7 @@ export default function Profile() {
             </form>
           </div>
 
+          {/* Formulário de atualização de senha */}
           <div className="card">
             <h2>Alterar senha</h2>
             <form onSubmit={onSubmitPassword} className="form-grid">
@@ -242,6 +243,7 @@ export default function Profile() {
         </div>
       )}
 
+      {/* Histórico de testes */}
       {items && (
         <>
           <h2 className="block-title">Histórico de testes</h2>
@@ -272,6 +274,7 @@ export default function Profile() {
             <p>Nenhum teste salvo ainda.</p>
           )}
 
+          {/* Gráfico de evolução do índice */}
           <div className="chart-section">
             <h2>Evolução do Índice de Estresse</h2>
             {chartData.length > 0 ? (
@@ -280,17 +283,8 @@ export default function Profile() {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="date" />
                   <YAxis domain={[0, 100]} />
-                  <Tooltip
-                    content={<CustomTooltip />}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="percent"
-                    stroke="#007bff"
-                    strokeWidth={2}
-                    dot={{ r: 4 }}
-                    activeDot={{ r: 6 }}
-                  />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Line type="monotone" dataKey="percent" stroke="#007bff" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }} />
                 </LineChart>
               </ResponsiveContainer>
             ) : (
@@ -300,7 +294,7 @@ export default function Profile() {
         </>
       )}
 
-      {/*Exclusão de conta*/}
+      {/* Botão para exclusão de conta */}
       <div className="delete-account-section">
         <button onClick={onDeleteAccount} className="btn-danger">
             Excluir Minha Conta
@@ -310,5 +304,5 @@ export default function Profile() {
         </p>
       </div>
     </section>
-  )
+  );
 }
