@@ -40,7 +40,7 @@ export default function MainPage() {
         {/* Moldura da imagem (usa uma tag <figure> semântico para imagens com legenda) */}
         <figure className="photo-frame">
           <img
-            src="./src/assets/people-inicial-page.png"
+            src="/people-inicial-page.png"
             alt="Estudantes sorrindo em ambiente acadêmico"
           />
         </figure>
