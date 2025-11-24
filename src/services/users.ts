@@ -1,6 +1,6 @@
 // Define a URL base da API, pegando da variável de ambiente do Vite.
 // Se não houver, usa "http://localhost:8000" como fallback.
-const API_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:8000"
+const API_BASE = import.meta.env.VITE_API_URL ?? "https://backend-n7az.onrender.com"
 
 // Função auxiliar para montar os cabeçalhos de autenticação (Authorization).
 function authHeaders(): Record<string, string> {

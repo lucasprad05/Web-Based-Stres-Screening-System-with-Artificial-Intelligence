@@ -1,7 +1,7 @@
 // Define a constante BASE, que representa a URL base da API.
 // Ela é obtida da variável de ambiente VITE_API_URL (definida, por exemplo, no arquivo .env).
 // Caso a variável não exista, usa "http://localhost:8000" como valor padrão.
-const BASE = import.meta.env.VITE_API_URL ?? "http://localhost:8000"
+const BASE = import.meta.env.VITE_API_URL ?? "https://backend-n7az.onrender.com"
 
 // Função genérica para fazer requisições HTTP.
 // <T> indica que a função é genérica: ela pode retornar dados de qualquer tipo definido pelo chamador.

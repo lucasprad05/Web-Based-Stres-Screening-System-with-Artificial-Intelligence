@@ -36,7 +36,7 @@ export type AssessmentOut = {
 
 // Define a URL base da API, obtida de uma variável de ambiente do Vite.
 // Se não houver valor configurado, usa "http://localhost:8000" como fallback.
-const API_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:8000"
+const API_BASE = import.meta.env.VITE_API_URL ?? "https://backend-n7az.onrender.com"
 
 // Função auxiliar para montar os headers de autenticação.
 // Busca um token salvo no localStorage (pode ter chaves diferentes conforme o backend).
