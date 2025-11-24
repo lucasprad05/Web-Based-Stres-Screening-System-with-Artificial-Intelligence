@@ -4,7 +4,7 @@ import "../styles/header.css"
 
 // Componente de cabeçalho da aplicação
 export default function Header() {
-  const { isLoggedIn, user, logout } = useAuth() // pega estado de autenticação
+  const { isLoggedIn, logout } = useAuth() // pega estado de autenticação
   const navigate = useNavigate() // hook para navegação programática
 
   // Função chamada ao clicar em "Sair"
